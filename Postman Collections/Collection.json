@@ -1,0 +1,341 @@
+{
+	"info": {
+		"_postman_id": "2a4ac609-14c4-4227-be72-5392f931103b",
+		"name": "phonebook",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "negative",
+					"item": [],
+					"id": "c18c8fb0-b62b-42ba-9ff5-92e5b26969b5"
+				},
+				{
+					"name": "positive",
+					"item": [
+						{
+							"name": "Login registered use",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "599a4567-d4a7-4d04-a603-1ca0e0c4806e",
+										"exec": [
+											"var jsonData = pm.response.json();\r",
+											"pm.environment.set(\"token\", jsonData.token);"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "b28f71cc-39fa-4788-bcfc-87c5aa8c61d9",
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "fa65f636-d1cc-4c71-a609-957345fb3809",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"test12321@gmail.com\",\r\n  \"password\": \"So12321$\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BaseURI}}/v1/user/login/usernamepassword"
+							},
+							"response": []
+						}
+					],
+					"id": "2095b825-7ee5-4f6f-9b7f-9587f7707501"
+				}
+			],
+			"id": "c9ec6baa-ca08-4925-8bcc-19714f02cf20"
+		},
+		{
+			"name": "contact",
+			"item": [
+				{
+					"name": "positive",
+					"item": [
+						{
+							"name": "Get all contacts before add",
+							"id": "1941b2ae-6ea4-40c2-99a7-e7dbe7e65c38",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"test12321@gmail.com\",\r\n  \"password\": \"So12321$\"\r\n}"
+								},
+								"url": "{{BaseURI}}/v1/contacts"
+							},
+							"response": []
+						},
+						{
+							"name": "Add contact",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "71246388-7efa-49cd-8c14-e9e86b47576c",
+										"exec": [
+											"pm.test(\"Body matches string: Contact was added!\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Contact was added!\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "bf23326a-0666-40ca-88cb-bf2a595e2d89",
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "a0ae7ebf-b522-4fd0-8a0e-50c95ddf4b98",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \r\n  \"name\": \"Karl\",\r\n  \"lastName\": \"Smith\",\r\n  \"email\": \"smith@gmail.com\",\r\n  \"phone\": \"0821025705\",\r\n  \"address\": \"Hamburg\",\r\n  \"description\": \"goalkeeper\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BaseURI}}/v1/contacts"
+							},
+							"response": []
+						},
+						{
+							"name": "Get all contacts after add",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "62515365-d027-45d2-831c-0f58b5011baf",
+										"exec": [
+											"let response = pm.response.json();\r",
+											"//take the first element of the contacts array\r",
+											"let contactId = response.contacts[0].id;\r",
+											"//save in environment\r",
+											"pm.environment.set(\"Id\", contactId);"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "62e31774-81d1-4d04-92c6-f353b357aafd",
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "b5924985-1b8e-45a9-9e34-45e43e6e02ff",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"test12321@gmail.com\",\r\n  \"password\": \"So12321$\"\r\n}"
+								},
+								"url": "{{BaseURI}}/v1/contacts"
+							},
+							"response": []
+						},
+						{
+							"name": "Modify contact",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "71246388-7efa-49cd-8c14-e9e86b47576c",
+										"exec": [
+											"pm.test(\"API message: Contact was updated\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.message).to.eql(\"Contact was updated\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "bf23326a-0666-40ca-88cb-bf2a595e2d89",
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"id": "53448a43-9a7f-4475-906a-cc3343f59b93",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \r\n  \"id\": \"{{Id}}\",\r\n  \"name\": \"Karl\",\r\n  \"lastName\": \"Smith\",\r\n  \"email\": \"smith@gmail.com\",\r\n  \"phone\": \"0821025705\",\r\n  \"address\": \"Hamburg\",\r\n  \"description\": \"goalkeeper\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BaseURI}}/v1/contacts"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete contact by id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "a5b5773c-859b-4ede-9957-0d46699ef58c",
+										"exec": [
+											"pm.test(\"API message: Contact was deleted!\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.message).to.eql(\"Contact was deleted!\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "91a27a39-a5c0-4b1d-9ac9-715c94cfde09",
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "78c18ecd-4dbb-48e1-8747-b553b68acf61",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"url": "{{BaseURI}}/v1/contacts/{{Id}}"
+							},
+							"response": []
+						}
+					],
+					"id": "6f1dcefb-028f-4b5c-a97f-0ed7003ce52a"
+				},
+				{
+					"name": "negative",
+					"item": [],
+					"id": "a2ec2e6b-53f9-41f5-a7e7-63954dfee4cf"
+				}
+			],
+			"id": "11942315-be88-4b82-abd0-b1c490ad1f84"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "fd7f68f6-4c59-42d8-87c0-a0a5b1b7e8bb",
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "aafc1381-cdda-44ff-b14a-5171263dbaa3",
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					"pm.test(\"Response time is less than 1000ms\", function () {\r",
+					"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+					"});"
+				]
+			}
+		}
+	]
+}
